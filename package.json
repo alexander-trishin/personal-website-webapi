@@ -4,6 +4,9 @@
     "private": true,
     "license": "MIT",
     "main": "source/index.ts",
+    "cacheDirectories": [
+        ".yarn/cache"
+    ],
     "scripts": {
         "prepare": "husky install",
         "build": "tsc",

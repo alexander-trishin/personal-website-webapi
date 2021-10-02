@@ -7,9 +7,9 @@ const logErrorAndShutdown = <T>(error: T) => {
 
 const start = async () => {
     try {
-        const port = process.env.PORT || 3000;
+        const { PORT = 3000, HOST = '::' } = process.env;
 
-        await server.listen(port);
+        await server.listen(PORT, HOST);
     } catch (error) {
         logErrorAndShutdown(error);
     }
