@@ -12,10 +12,12 @@
         "build": "tsc",
         "clear": "rimraf build coverage",
         "lint": "tsc --noEmit && eslint \"source/**\"",
+        "start": "ts-node-dev \"./source/index.ts\"",
         "test": "jest"
     },
     "dependencies": {
-        "fastify": "3.22.0"
+        "fastify": "3.22.0",
+        "fastify-swagger": "4.12.4"
     },
     "devDependencies": {
         "@types/jest": "27.0.2",
@@ -35,6 +37,7 @@
         "rimraf": "3.0.2",
         "ts-jest": "27.0.5",
         "ts-node": "10.2.1",
+        "ts-node-dev": "1.1.8",
         "typescript": "4.4.3"
     },
     "jestSonar": {

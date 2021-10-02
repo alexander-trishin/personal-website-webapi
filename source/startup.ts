@@ -1,9 +1,20 @@
-import Fastify, { FastifyInstance } from 'fastify';
+import fastify, { FastifyInstance } from 'fastify';
 
 import { HomeController } from './controllers';
+import { registerSwagger } from './plugins';
 
-const fastify: FastifyInstance = Fastify({ logger: true });
+const startup: FastifyInstance = fastify({ logger: true });
 
-fastify.register(HomeController);
+registerSwagger(startup);
 
-export default fastify;
+startup.register(HomeController);
+
+startup.ready(error => {
+    if (error) {
+        throw error;
+    }
+
+    startup.swagger();
+});
+
+export default startup;
