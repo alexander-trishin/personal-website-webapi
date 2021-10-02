@@ -1,0 +1,41 @@
+{
+    "root": true,
+    "env": {
+        "es2020": true,
+        "node": true,
+        "jest": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:jest/recommended",
+        "plugin:prettier/recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 2020,
+        "sourceType": "module"
+    },
+    "plugins": ["jest", "@typescript-eslint"],
+    "rules": {
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "jest/no-disabled-tests": "warn",
+        "jest/no-focused-tests": "error",
+        "jest/no-identical-title": "error",
+        "jest/prefer-to-have-length": "error",
+        "jest/valid-expect": "error",
+        "linebreak-style": 0,
+        "padding-line-between-statements": [
+            "error",
+            { "blankLine": "always", "prev": ["const", "let"], "next": "*" },
+            {
+                "blankLine": "any",
+                "prev": ["const", "let"],
+                "next": ["const", "let"]
+            }
+        ],
+        "prefer-destructuring": ["error", { "array": true, "object": true }],
+        "no-console": "error",
+        "no-redeclare": ["error", { "builtinGlobals": true }]
+    }
+}
