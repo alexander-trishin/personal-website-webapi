@@ -18,6 +18,7 @@ const configuration = {
 
     testEnvironment: 'node',
     testRegex: '.*\\.test\\.ts$',
+    testResultsProcessor: 'jest-sonar-reporter',
 
     transform: {
         '^.+\\.ts$': 'ts-jest'
