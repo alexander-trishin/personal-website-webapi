@@ -1,10 +1,11 @@
+import { Server } from 'http';
+
 import {
     FastifyPluginCallback,
     FastifyPluginOptions,
     RouteHandlerMethod,
     RouteShorthandOptions
 } from 'fastify';
-import { Server } from 'http';
 
 const HomeController: FastifyPluginCallback<FastifyPluginOptions, Server> = async fastify => {
     const getOptions: RouteShorthandOptions = {
