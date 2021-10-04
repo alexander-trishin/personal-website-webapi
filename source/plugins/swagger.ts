@@ -1,8 +1,6 @@
 import type { FastifyInstance } from 'fastify';
 import fastifySwagger, { SwaggerOptions } from 'fastify-swagger';
 
-import packageJson from '../../package.json';
-
 const registerSwagger = (server: FastifyInstance) => {
     server.register<SwaggerOptions>(fastifySwagger, {
         routePrefix: '/swagger',
@@ -11,7 +9,7 @@ const registerSwagger = (server: FastifyInstance) => {
             info: {
                 title: 'Personal Website: Web API',
                 description: 'Swagger documentation',
-                version: packageJson.version
+                version: '1.0.0'
             },
             externalDocs: {
                 url: 'https://swagger.io',
