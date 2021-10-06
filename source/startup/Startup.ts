@@ -1,29 +1,15 @@
-import fastify from 'fastify';
+import fastify, { FastifyInstance } from 'fastify';
 
 import { HomeController } from '../controllers';
-import { registerAwilix, registerSwagger } from './plugins';
+import { registerAwilix, registerEnv, registerSwagger } from './plugins';
 
 class Startup {
-    static boot = (options?: Parameters<typeof fastify>[0]) => {
-        const startup = fastify(options);
+    boot = async (options?: Parameters<typeof fastify>[0]) => {
+        const startup = await fastify(options);
 
-        this.configurePlugins(startup);
-        this.configureControllers(startup);
-        this.configurePipeline(startup);
+        await this.configurePlugins(startup);
+        await this.configureControllers(startup);
 
-        return startup;
-    };
-
-    private static configurePlugins = (startup: ReturnType<typeof fastify>) => {
-        registerAwilix(startup);
-        registerSwagger(startup);
-    };
-
-    private static configureControllers = (startup: ReturnType<typeof fastify>) => {
-        startup.register(HomeController);
-    };
-
-    private static configurePipeline = (startup: ReturnType<typeof fastify>) => {
         startup.ready(error => {
             if (error) {
                 throw error;
@@ -31,6 +17,18 @@ class Startup {
 
             startup.swagger();
         });
+
+        return startup;
+    };
+
+    private configurePlugins = async (startup: FastifyInstance) => {
+        await registerAwilix(startup);
+        await registerEnv(startup);
+        await registerSwagger(startup);
+    };
+
+    private configureControllers = async (startup: FastifyInstance) => {
+        await startup.register(HomeController);
     };
 }
 

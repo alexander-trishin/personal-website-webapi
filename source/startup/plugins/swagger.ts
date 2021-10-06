@@ -1,8 +1,8 @@
 import type { FastifyInstance } from 'fastify';
 import fastifySwagger, { SwaggerOptions } from 'fastify-swagger';
 
-const registerSwagger = (server: FastifyInstance) => {
-    server.register<SwaggerOptions>(fastifySwagger, {
+const registerSwagger = async (server: FastifyInstance) => {
+    await server.register<SwaggerOptions>(fastifySwagger, {
         routePrefix: '/swagger',
         exposeRoute: true,
         openapi: {

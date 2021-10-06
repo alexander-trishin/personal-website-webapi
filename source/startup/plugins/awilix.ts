@@ -5,8 +5,8 @@ import { FastifyAwilixOptions, diContainer, fastifyAwilixPlugin } from 'fastify-
 import { ServiceName } from '../../core/services';
 import { NodemailerEmailService } from '../../services';
 
-const registerAwilix = (server: FastifyInstance) => {
-    server.register<FastifyAwilixOptions>(fastifyAwilixPlugin, {
+const registerAwilix = async (server: FastifyInstance) => {
+    await server.register<FastifyAwilixOptions>(fastifyAwilixPlugin, {
         disposeOnClose: true,
         disposeOnResponse: true
     });

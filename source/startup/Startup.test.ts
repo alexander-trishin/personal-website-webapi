@@ -1,10 +1,12 @@
+import type { FastifyInstance } from 'fastify';
+
 import Startup from './Startup';
 
 describe('Startup', () => {
-    let server: ReturnType<typeof Startup.boot>;
+    let server: FastifyInstance;
 
-    beforeEach(() => {
-        server = Startup.boot();
+    beforeEach(async () => {
+        server = await new Startup().boot();
     });
 
     afterAll(async () => {

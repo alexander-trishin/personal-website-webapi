@@ -1,3 +1,3 @@
 import { Program } from './startup';
 
-Program.start();
+new Program().start();
