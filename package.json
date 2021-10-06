@@ -12,11 +12,13 @@
         "build": "tsc",
         "clear": "rimraf build coverage",
         "lint": "tsc --noEmit && eslint \"source/**\"",
-        "start": "ts-node-dev \"./source/index.ts\"",
+        "start": "ts-node-dev --files \"./source/index.ts\"",
         "test": "jest"
     },
     "dependencies": {
+        "awilix": "5.0.1",
         "fastify": "3.22.0",
+        "fastify-awilix": "1.2.0",
         "fastify-swagger": "4.12.4"
     },
     "devDependencies": {

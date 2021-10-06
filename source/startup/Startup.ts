@@ -1,7 +1,7 @@
 import fastify from 'fastify';
 
 import { HomeController } from '../controllers';
-import { registerSwagger } from './plugins';
+import { registerAwilix, registerSwagger } from './plugins';
 
 class Startup {
     static boot = (options?: Parameters<typeof fastify>[0]) => {
@@ -15,6 +15,7 @@ class Startup {
     };
 
     private static configurePlugins = (startup: ReturnType<typeof fastify>) => {
+        registerAwilix(startup);
         registerSwagger(startup);
     };
 
