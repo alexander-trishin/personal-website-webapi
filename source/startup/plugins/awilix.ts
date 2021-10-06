@@ -3,7 +3,7 @@ import type { FastifyInstance } from 'fastify';
 import { FastifyAwilixOptions, diContainer, fastifyAwilixPlugin } from 'fastify-awilix';
 
 import { ServiceName } from '../../core/services';
-import { EmailService } from '../../services';
+import { NodemailerEmailService } from '../../services';
 
 const registerAwilix = (server: FastifyInstance) => {
     server.register<FastifyAwilixOptions>(fastifyAwilixPlugin, {
@@ -11,12 +11,7 @@ const registerAwilix = (server: FastifyInstance) => {
         disposeOnResponse: true
     });
 
-    diContainer.register(
-        ServiceName.EmailService,
-        asClass(EmailService)
-            .scoped()
-            .disposer(service => service.dispose())
-    );
+    diContainer.register(ServiceName.EmailService, asClass(NodemailerEmailService).transient());
 };
 
 export default registerAwilix;
