@@ -1,12 +1,18 @@
-import startup from './startup';
+import Startup from './Startup';
 
-describe('startup', () => {
+describe('Startup', () => {
+    let server: ReturnType<typeof Startup.boot>;
+
+    beforeEach(() => {
+        server = Startup.boot();
+    });
+
     afterAll(async () => {
-        await startup.close();
+        await server.close();
     });
 
     it('should register controllers', async () => {
-        const response = await startup.inject({
+        const response = await server.inject({
             method: 'GET',
             url: '/'
         });
