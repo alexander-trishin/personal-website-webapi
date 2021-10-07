@@ -6,7 +6,8 @@ const configuration = {
         '**/source/**/*.ts',
         '!**/node_modules/**',
         '!**/coverage/**',
-        '!**/source/index.ts'
+        '!**/source/index.ts',
+        '!**/source/startup/**'
     ],
 
     coverageDirectory: 'coverage',
