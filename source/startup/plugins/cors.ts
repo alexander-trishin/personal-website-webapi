@@ -1,13 +1,13 @@
 import type { FastifyInstance } from 'fastify';
 import fastifyCors from 'fastify-cors';
 
-const registerCors = async (startup: FastifyInstance) => {
+const registerCors = async (server: FastifyInstance) => {
     const {
         WEBAPI_CORS_ORIGIN: origin,
         WEBAPI_CORS_METHODS: methods,
         WEBAPI_CORS_HEADERS: allowedHeaders,
         WEBAPI_CORS_MAX_AGE: maxAge
-    } = startup.config;
+    } = server.config;
 
     const options = { origin, methods, allowedHeaders, maxAge };
 
@@ -17,7 +17,7 @@ const registerCors = async (startup: FastifyInstance) => {
         }
     });
 
-    await startup.register(fastifyCors, options);
+    await server.register(fastifyCors, options);
 };
 
 export default registerCors;

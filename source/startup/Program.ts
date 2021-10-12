@@ -4,7 +4,9 @@ import Startup from './Startup';
 
 class Program {
     start = async () => {
-        const server = await new Startup().boot({ logger: true });
+        const server = await new Startup().boot({
+            logger: { level: 'info', prettyPrint: { colorize: true, singleLine: true } }
+        });
 
         process.once('SIGINT', () => this.dispose(server));
 

@@ -1,6 +1,6 @@
 import fastify, { FastifyInstance } from 'fastify';
 
-import { HomeController } from '../controllers';
+import { ContactMeController } from '../controllers';
 import { registerAwilix, registerCors, registerEnv, registerSwagger } from './plugins';
 
 class Startup {
@@ -29,7 +29,7 @@ class Startup {
     };
 
     private configureControllers = async (startup: FastifyInstance) => {
-        await startup.register(HomeController);
+        await startup.register(ContactMeController);
     };
 }
 

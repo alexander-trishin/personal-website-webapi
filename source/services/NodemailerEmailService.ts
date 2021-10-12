@@ -1,24 +1,47 @@
 import nodemailer from 'nodemailer';
 
+import type { IContainer } from '../core';
 import type { IEmailService } from '../core/services';
 
 class NodemailerEmailService implements IEmailService {
-    send = async () => {
-        const testAccount = await nodemailer.createTestAccount();
+    private readonly service: string;
+    private readonly username: string;
+    private readonly password: string;
 
-        const transporter = nodemailer.createTransport({
-            ...testAccount.smtp,
+    constructor(container: IContainer) {
+        const {
+            configuration: {
+                WEBAPI_EMAIL_SERVICE: service,
+                WEBAPI_EMAIL_AUTH_USER: username,
+                WEBAPI_EMAIL_AUTH_PASS: password
+            }
+        } = container;
+
+        if (!service || !username || !password) {
+            throw new Error('The email service is configured incorrectly.');
+        }
+
+        this.service = service;
+        this.username = username;
+        this.password = password;
+    }
+
+    send: IEmailService['send'] = async options => {
+        const transport = nodemailer.createTransport({
+            service: this.service,
             auth: {
-                user: testAccount.user,
-                pass: testAccount.pass
+                user: this.username,
+                pass: this.password
             }
         });
 
-        await transporter.sendMail({
-            from: '"Fred Foo 👻" <foo@example.com>',
-            to: 'bar@example.com, baz@example.com',
-            subject: 'Hello ✔',
-            text: 'Hello world?'
+        const { to = this.username, subject, text } = options;
+
+        await transport.sendMail({
+            from: this.username,
+            to,
+            subject,
+            text
         });
     };
 }

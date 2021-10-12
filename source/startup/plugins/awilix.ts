@@ -1,8 +1,8 @@
-import { asClass } from 'awilix';
+import { asClass, asValue } from 'awilix';
 import type { FastifyInstance } from 'fastify';
 import { FastifyAwilixOptions, diContainer, fastifyAwilixPlugin } from 'fastify-awilix';
 
-import { ServiceName } from '../../core/services';
+import { ServiceName } from '../../core';
 import { NodemailerEmailService } from '../../services';
 
 const registerAwilix = async (server: FastifyInstance) => {
@@ -11,7 +11,9 @@ const registerAwilix = async (server: FastifyInstance) => {
         disposeOnResponse: true
     });
 
+    diContainer.register(ServiceName.Configuration, asValue(server.config));
     diContainer.register(ServiceName.EmailService, asClass(NodemailerEmailService).transient());
+    diContainer.register(ServiceName.Logger, asValue(server.log));
 };
 
 export default registerAwilix;

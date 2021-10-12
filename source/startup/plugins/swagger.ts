@@ -1,5 +1,6 @@
 import type { FastifyInstance } from 'fastify';
 import fastifySwagger, { SwaggerOptions } from 'fastify-swagger';
+import Schema from 'fluent-json-schema';
 
 const registerSwagger = async (server: FastifyInstance) => {
     await server.register<SwaggerOptions>(fastifySwagger, {
@@ -23,6 +24,14 @@ const registerSwagger = async (server: FastifyInstance) => {
         staticCSP: true,
         transformStaticCSP: header => header
     });
+
+    server.addSchema(
+        Schema.object()
+            .id('bad-request')
+            .prop('statusCode', Schema.number().required())
+            .prop('error', Schema.string().required())
+            .prop('message', Schema.string().required())
+    );
 };
 
 export default registerSwagger;
