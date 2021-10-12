@@ -9,6 +9,7 @@ interface IConfiguration {
     WEBAPI_EMAIL_SERVICE?: string;
     WEBAPI_EMAIL_AUTH_USER?: string;
     WEBAPI_EMAIL_AUTH_PASS?: string;
+    WEBAPI_RECAPTCHA_SECRET_KEY?: string;
     WEBAPI_VERSION: string;
 }
 

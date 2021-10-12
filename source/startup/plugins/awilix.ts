@@ -3,7 +3,7 @@ import type { FastifyInstance } from 'fastify';
 import { FastifyAwilixOptions, diContainer, fastifyAwilixPlugin } from 'fastify-awilix';
 
 import { ServiceName } from '../../core';
-import { NodemailerEmailService } from '../../services';
+import { GoogleRecaptchaService, NodemailerEmailService } from '../../services';
 
 const registerAwilix = async (server: FastifyInstance) => {
     await server.register<FastifyAwilixOptions>(fastifyAwilixPlugin, {
@@ -14,6 +14,7 @@ const registerAwilix = async (server: FastifyInstance) => {
     diContainer.register(ServiceName.Configuration, asValue(server.config));
     diContainer.register(ServiceName.EmailService, asClass(NodemailerEmailService).transient());
     diContainer.register(ServiceName.Logger, asValue(server.log));
+    diContainer.register(ServiceName.RecaptchaService, asClass(GoogleRecaptchaService).transient());
 };
 
 export default registerAwilix;

@@ -35,6 +35,7 @@ const registerEnv = async (server: FastifyInstance) => {
         .prop('WEBAPI_EMAIL_SERVICE', Schema.string())
         .prop('WEBAPI_EMAIL_AUTH_USER', Schema.string())
         .prop('WEBAPI_EMAIL_AUTH_PASS', Schema.string())
+        .prop('WEBAPI_RECAPTCHA_SECRET_KEY', Schema.string())
         .prop('WEBAPI_VERSION', Schema.string().required());
 
     await server.register(fastifyEnv, {
