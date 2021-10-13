@@ -6,6 +6,7 @@ import {
     registerCompress,
     registerCors,
     registerEnv,
+    registerHelmet,
     registerSensible,
     registerSwagger
 } from './plugins';
@@ -34,6 +35,7 @@ class Startup {
         await registerAwilix(startup);
         await registerCompress(startup);
         await registerCors(startup);
+        await registerHelmet(startup);
         await registerSwagger(startup);
     };
 
