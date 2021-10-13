@@ -1,8 +1,7 @@
 const enum ServiceName {
     Configuration = 'configuration',
     EmailService = 'emailService',
-    Logger = 'logger',
-    RecaptchaService = 'recaptchaService'
+    Logger = 'logger'
 }
 
 export default ServiceName;
