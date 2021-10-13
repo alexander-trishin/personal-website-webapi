@@ -3,6 +3,7 @@ import fastify, { FastifyInstance } from 'fastify';
 import { ContactMeController } from '../controllers';
 import {
     registerAwilix,
+    registerCompress,
     registerCors,
     registerEnv,
     registerSensible,
@@ -31,6 +32,7 @@ class Startup {
         await registerEnv(startup);
         await registerSensible(startup);
         await registerAwilix(startup);
+        await registerCompress(startup);
         await registerCors(startup);
         await registerSwagger(startup);
     };
