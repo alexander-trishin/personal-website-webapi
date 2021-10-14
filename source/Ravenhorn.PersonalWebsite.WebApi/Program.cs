@@ -3,11 +3,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading.Tasks;
 
 namespace Ravenhorn.PersonalWebsite.WebApi
 {
+    [ExcludeFromCodeCoverage]
     public static class Program
     {
         private static IConfiguration Configuration { get; } = new ConfigurationBuilder()

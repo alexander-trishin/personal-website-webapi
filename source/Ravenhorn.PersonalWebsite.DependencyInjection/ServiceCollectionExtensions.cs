@@ -5,9 +5,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Ravenhorn.PersonalWebsite.Application.Configuration;
 using Ravenhorn.PersonalWebsite.Application.Core;
 using Ravenhorn.PersonalWebsite.Infrastructure;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Ravenhorn.PersonalWebsite.DependencyInjection
 {
+    [ExcludeFromCodeCoverage]
     public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)

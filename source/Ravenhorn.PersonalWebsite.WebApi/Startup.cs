@@ -12,9 +12,11 @@ using Ravenhorn.PersonalWebsite.DependencyInjection;
 using Ravenhorn.PersonalWebsite.WebApi.Routing;
 using Serilog;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Ravenhorn.PersonalWebsite.WebApi
 {
+    [ExcludeFromCodeCoverage]
     public class Startup
     {
         private readonly IConfiguration _configuration;

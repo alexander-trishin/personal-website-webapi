@@ -8,7 +8,6 @@ on:
 
 env:
   APP_NAME: alexander-trishin-webapi
-  HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
 
 jobs:
   build-docker-and-deploy-to-heroku:
@@ -19,7 +18,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Login
-      run: docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
+      run: docker login --username=_ --password=${{ secrets.HEROKU_API_KEY }} registry.heroku.com
     - name: Build
       run: docker build -f "source/Ravenhorn.PersonalWebsite.WebApi/Dockerfile" --no-cache -t personalwebsite .
     - name: Push
