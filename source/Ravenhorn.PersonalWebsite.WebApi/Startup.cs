@@ -40,7 +40,18 @@ namespace Ravenhorn.PersonalWebsite.WebApi
 
             services.AddApplicationServices(_configuration);
 
-            services.AddCors();
+            services.AddCors(cors =>
+            {
+                var config = _configuration
+                    .GetSection(CorsConfiguration.SectionKey)
+                    .Get<CorsConfiguration>();
+
+                cors.AddDefaultPolicy(builder =>
+                {
+                    builder.WithOrigins(config.Origins);
+                });
+            });
+
             services.AddHealthChecks();
 
             services.AddSwaggerGen(options =>
@@ -88,6 +99,7 @@ namespace Ravenhorn.PersonalWebsite.WebApi
                 await next();
             });
 
+            app.UseCors();
             app.UseRouting();
             app.UseAuthorization();
 
