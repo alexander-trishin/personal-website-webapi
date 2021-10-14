@@ -1,0 +1,30 @@
+name: Deploy
+
+on:
+  workflow_run:
+    workflows: [Test]
+    types:
+      - completed
+
+env:
+  APP_NAME: alexander-trishin-webapi
+  HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+
+jobs:
+  build-docker-and-deploy-to-heroku:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Login
+      run: docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
+    - name: Build
+      run: docker build -f "source/Ravenhorn.PersonalWebsite.WebApi/Dockerfile" --no-cache -t personalwebsite .
+    - name: Push
+      run: |
+        docker tag personalwebsite registry.heroku.com/$APP_NAME/web
+        docker push registry.heroku.com/$APP_NAME/web
+    - name: Publish
+      run: heroku container:release web --app=$APP_NAME
