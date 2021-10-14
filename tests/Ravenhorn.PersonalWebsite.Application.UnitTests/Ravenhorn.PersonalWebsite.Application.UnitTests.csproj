@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="6.1.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
+    <PackageReference Include="Moq" Version="4.16.1" />
     <PackageReference Include="coverlet.collector" Version="3.1.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
@@ -21,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\source\Ravenhorn.PersonalWebsite.WebApi\Ravenhorn.PersonalWebsite.WebApi.csproj" />
+    <ProjectReference Include="..\..\source\Ravenhorn.PersonalWebsite.Application\Ravenhorn.PersonalWebsite.Application.csproj" />
   </ItemGroup>
 
 </Project>

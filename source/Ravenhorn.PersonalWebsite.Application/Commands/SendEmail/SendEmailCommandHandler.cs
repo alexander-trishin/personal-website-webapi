@@ -1,6 +1,5 @@
 ﻿using Intermedium;
 using Ravenhorn.PersonalWebsite.Application.Core;
-using System;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,7 +12,7 @@ namespace Ravenhorn.PersonalWebsite.Application.Commands.SendEmail
 
         public SendEmailCommandHandler(IEmailService emailService)
         {
-            _emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
+            _emailService = Guard.ThrowIfNull(emailService, nameof(emailService));
         }
 
         protected override async Task HandleAsync(SendEmailCommand command, CancellationToken cancellationToken)
@@ -29,7 +28,7 @@ namespace Ravenhorn.PersonalWebsite.Application.Commands.SendEmail
             builder.AppendLine();
             builder.AppendLine(command.Message);
 
-            await _emailService.SendEmailAsync(command.From, command.Subject, builder.ToString(), cancellationToken);
+            await _emailService.SendEmailAsync(command.Subject, builder.ToString(), cancellationToken);
         }
     }
 }

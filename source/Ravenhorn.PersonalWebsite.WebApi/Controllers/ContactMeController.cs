@@ -1,8 +1,8 @@
 ﻿using Intermedium;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Ravenhorn.PersonalWebsite.Application;
 using Ravenhorn.PersonalWebsite.Application.Commands.SendEmail;
-using System;
 using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,7 +18,7 @@ namespace Ravenhorn.PersonalWebsite.WebApi.Controllers
 
         public ContactMeController(IMediator mediator)
         {
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _mediator = Guard.ThrowIfNull(mediator, nameof(mediator));
         }
 
         [HttpPost]

@@ -1,4 +1,5 @@
 ﻿using Intermedium;
+using MailKit.Net.Smtp;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Ravenhorn.PersonalWebsite.Application.Configuration;
@@ -16,6 +17,7 @@ namespace Ravenhorn.PersonalWebsite.DependencyInjection
                 .Bind(configuration.GetSection(SmtpOptions.SectionKey))
                 .ValidateDataAnnotations();
 
+            services.AddTransient<ISmtpClient, SmtpClient>();
             services.AddTransient<IEmailService, EmailService>();
 
             services.AddIntermedium(options =>
