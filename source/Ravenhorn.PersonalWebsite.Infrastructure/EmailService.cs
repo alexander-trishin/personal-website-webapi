@@ -19,7 +19,11 @@ namespace Ravenhorn.PersonalWebsite.Infrastructure
             _options = options?.Value ?? throw new ArgumentNullException(nameof(options));
         }
 
-        public async Task SendEmailAsync(CancellationToken cancellationToken = default)
+        public async Task SendEmailAsync(
+            string from,
+            string subject,
+            string text,
+            CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -31,8 +35,8 @@ namespace Ravenhorn.PersonalWebsite.Infrastructure
             var message = new MimeMessage();
             message.From.Add(MailboxAddress.Parse(_options.Username));
             message.To.Add(MailboxAddress.Parse(_options.Username));
-            message.Subject = "test";
-            message.Body = new TextPart(TextFormat.Text) { Text = "Hello, %username%!" };
+            message.Subject = subject;
+            message.Body = new TextPart(TextFormat.Text) { Text = text };
 
             await client.SendAsync(message, cancellationToken);
         }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Intermedium;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Ravenhorn.PersonalWebsite.Application.Configuration;
 using Ravenhorn.PersonalWebsite.Application.Core;
@@ -16,6 +17,17 @@ namespace Ravenhorn.PersonalWebsite.DependencyInjection
                 .ValidateDataAnnotations();
 
             services.AddTransient<IEmailService, EmailService>();
+
+            services.AddIntermedium(options =>
+            {
+                options.ConfigurePipeline(
+                    exceptionHandling: false,
+                    postProcessing: false,
+                    preProcessing: false
+                );
+
+                options.Scan(typeof(IEmailService));
+            });
 
             return services;
         }

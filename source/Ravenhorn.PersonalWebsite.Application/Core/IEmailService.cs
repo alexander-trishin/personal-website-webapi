@@ -5,6 +5,11 @@ namespace Ravenhorn.PersonalWebsite.Application.Core
 {
     public interface IEmailService
     {
-        Task SendEmailAsync(CancellationToken cancellationToken = default);
+        Task SendEmailAsync(
+            string from,
+            string subject,
+            string text,
+            CancellationToken cancellationToken = default
+        );
     }
 }

@@ -50,6 +50,13 @@ namespace Ravenhorn.PersonalWebsite.WebApi
                 {
                     config.ReadFrom.Configuration(context.Configuration);
                 })
-                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseKestrel(options =>
+                    {
+                        options.AddServerHeader = false;
+                    });
+                });
     }
 }

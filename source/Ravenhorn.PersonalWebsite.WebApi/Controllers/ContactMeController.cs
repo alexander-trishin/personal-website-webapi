@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Intermedium;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Ravenhorn.PersonalWebsite.Application.Core;
+using Ravenhorn.PersonalWebsite.Application.Commands.SendEmail;
 using System;
 using System.Net.Mime;
 using System.Threading;
@@ -13,20 +14,24 @@ namespace Ravenhorn.PersonalWebsite.WebApi.Controllers
     [Produces(MediaTypeNames.Application.Json)]
     public class ContactMeController : ControllerBase
     {
-        private readonly IEmailService _emailService;
+        private readonly IMediator _mediator;
 
-        public ContactMeController(IEmailService emailService)
+        public ContactMeController(IMediator mediator)
         {
-            _emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Post(CancellationToken cancellationToken)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> Post([FromBody] SendEmailCommand command, CancellationToken cancellationToken)
         {
-            await _emailService.SendEmailAsync(cancellationToken);
+            if (command is null)
+            {
+                return BadRequest("Required request body is missing.");
+            }
 
-            return Ok("Message sent!");
+            await _mediator.SendAsync(command, cancellationToken);
+            return NoContent();
         }
     }
 }
