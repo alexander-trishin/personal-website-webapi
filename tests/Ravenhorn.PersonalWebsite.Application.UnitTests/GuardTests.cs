@@ -29,7 +29,7 @@ namespace Ravenhorn.PersonalWebsite.Application.UnitTests
 
             Action act = () => Guard.ThrowIfNull(boolean, nameof(boolean));
 
-            act.Should().ThrowExactly<ArgumentNullException>().WithMessage("*'boolean'*");
+            act.Should().ThrowExactly<ArgumentNullException>().WithMessage($"*'{nameof(boolean)}'*");
         }
 
         [Theory]
@@ -39,7 +39,7 @@ namespace Ravenhorn.PersonalWebsite.Application.UnitTests
         {
             Action act = () => Guard.ThrowIfNullOrEmpty(value, nameof(value));
 
-            act.Should().ThrowExactly<ArgumentException>().WithMessage("*'value'*");
+            act.Should().ThrowExactly<ArgumentException>().WithMessage($"*'{nameof(value)}'*");
         }
 
         [Fact]

@@ -13,4 +13,8 @@
     <ProjectReference Include="..\Ravenhorn.PersonalWebsite.Application\Ravenhorn.PersonalWebsite.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Persistence\" />
+  </ItemGroup>
+
 </Project>

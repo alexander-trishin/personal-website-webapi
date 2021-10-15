@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using FluentValidation.Results;
+﻿using FluentValidation.TestHelper;
 using Ravenhorn.PersonalWebsite.Application.Commands.SendEmail;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,79 +11,82 @@ namespace Ravenhorn.PersonalWebsite.Application.UnitTests.Commands.SendEmail
         [Fact]
         public async Task ValidateAsync_ShouldReturnError_WhenNameIsTooLong()
         {
-            var actual = await ValidateAsync(new SendEmailCommand
+            var command = new SendEmailCommand
             {
                 Name = new string(Enumerable.Repeat('x', 200).ToArray())
-            });
+            };
 
-            actual.Errors.Should().Contain(error => error.PropertyName == nameof(SendEmailCommand.Name));
-            actual.IsValid.Should().BeFalse();
+            var actual = await new SendEmailCommandValidator().TestValidateAsync(command);
+
+            actual.ShouldHaveValidationErrorFor(nameof(SendEmailCommand.Name));
         }
 
         [Fact]
         public async Task ValidateAsync_ShouldReturnError_WhenFromIsMissing()
         {
-            var actual = await ValidateAsync(new SendEmailCommand());
+            var command = new SendEmailCommand();
 
-            actual.Errors.Should().Contain(error => error.PropertyName == nameof(SendEmailCommand.From));
-            actual.IsValid.Should().BeFalse();
+            var actual = await new SendEmailCommandValidator().TestValidateAsync(command);
+
+            actual.ShouldHaveValidationErrorFor(nameof(SendEmailCommand.From));
         }
 
         [Fact]
         public async Task ValidateAsync_ShouldReturnError_WhenFromIsNotEmail()
         {
-            var actual = await ValidateAsync(new SendEmailCommand { From = "Ha HA, I will break the code!" });
+            var command = new SendEmailCommand { From = "Ha HA, I will break the code!" };
 
-            actual.Errors.Should().Contain(error => error.PropertyName == nameof(SendEmailCommand.From));
-            actual.IsValid.Should().BeFalse();
+            var actual = await new SendEmailCommandValidator().TestValidateAsync(command);
+
+            actual.ShouldHaveValidationErrorFor(nameof(SendEmailCommand.From));
         }
 
         [Fact]
         public async Task ValidateAsync_ShouldReturnError_WhenSubjectIsEmpty()
         {
-            var actual = await ValidateAsync(new SendEmailCommand { Subject = string.Empty });
+            var command = new SendEmailCommand { Subject = string.Empty };
 
-            actual.Errors.Should().Contain(error => error.PropertyName == nameof(SendEmailCommand.Subject));
-            actual.IsValid.Should().BeFalse();
+            var actual = await new SendEmailCommandValidator().TestValidateAsync(command);
+
+            actual.ShouldHaveValidationErrorFor(nameof(SendEmailCommand.Subject));
         }
 
         [Fact]
         public async Task ValidateAsync_ShouldReturnError_WhenSubjectIsToLong()
         {
-            var actual = await ValidateAsync(new SendEmailCommand
+            var command = new SendEmailCommand
             {
                 Subject = new string(Enumerable.Repeat('x', 200).ToArray())
-            });
+            };
 
-            actual.Errors.Should().Contain(error => error.PropertyName == nameof(SendEmailCommand.Subject));
-            actual.IsValid.Should().BeFalse();
+            var actual = await new SendEmailCommandValidator().TestValidateAsync(command);
+
+            actual.ShouldHaveValidationErrorFor(nameof(SendEmailCommand.Subject));
         }
 
         [Fact]
         public async Task ValidateAsync_ShouldReturnError_WhenMessageIsEmpty()
         {
-            var actual = await ValidateAsync(new SendEmailCommand { Message = string.Empty });
+            var command = new SendEmailCommand { Message = string.Empty };
 
-            actual.Errors.Should().Contain(error => error.PropertyName == nameof(SendEmailCommand.Message));
-            actual.IsValid.Should().BeFalse();
+            var actual = await new SendEmailCommandValidator().TestValidateAsync(command);
+
+            actual.ShouldHaveValidationErrorFor(nameof(SendEmailCommand.Message));
         }
 
         [Fact]
         public async Task ValidateAsync_ShouldSayModelIsValid_WhenCommandIsValid()
         {
-            var actual = await ValidateAsync(new SendEmailCommand
+            var command = new SendEmailCommand
             {
                 From = "test@email.com",
                 Subject = "pew pew",
                 Message = "hello world!"
-            });
+            };
 
-            actual.IsValid.Should().BeTrue();
-        }
+            var actual = await new SendEmailCommandValidator().TestValidateAsync(command);
 
-        private static async Task<ValidationResult> ValidateAsync(SendEmailCommand command)
-        {
-            return await new SendEmailCommandValidator().ValidateAsync(command);
+            actual.ShouldNotHaveAnyValidationErrors();
         }
     }
 }

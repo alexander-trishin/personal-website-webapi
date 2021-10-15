@@ -40,7 +40,7 @@ namespace Ravenhorn.PersonalWebsite.Infrastructure.UnitTests
 
             Func<Task> act = () => service.SendEmailAsync(subject, "test-text");
 
-            await act.Should().ThrowAsync<ArgumentException>().WithMessage("*subject*");
+            await act.Should().ThrowExactlyAsync<ArgumentException>().WithMessage("*subject*");
         }
 
         [Theory]
@@ -52,7 +52,7 @@ namespace Ravenhorn.PersonalWebsite.Infrastructure.UnitTests
 
             Func<Task> act = () => service.SendEmailAsync("test-subject", text);
 
-            await act.Should().ThrowAsync<ArgumentException>().WithMessage("*text*");
+            await act.Should().ThrowExactlyAsync<ArgumentException>().WithMessage("*text*");
         }
 
         [Fact]

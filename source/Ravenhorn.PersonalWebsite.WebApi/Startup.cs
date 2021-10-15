@@ -1,14 +1,18 @@
 using FluentValidation.AspNetCore;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using Ravenhorn.PersonalWebsite.Application;
 using Ravenhorn.PersonalWebsite.Application.Configuration;
 using Ravenhorn.PersonalWebsite.DependencyInjection;
+using Ravenhorn.PersonalWebsite.WebApi.HealthChecks;
 using Ravenhorn.PersonalWebsite.WebApi.Routing;
 using Serilog;
 using System;
@@ -35,31 +39,26 @@ namespace Ravenhorn.PersonalWebsite.WebApi
                 })
                 .AddFluentValidation(options =>
                 {
-                    options.RegisterValidatorsFromAssemblyContaining<SmtpOptions>();
+                    options.RegisterValidatorsFromAssemblyContaining(typeof(Guard));
                 });
 
             services.AddApplicationServices(_configuration);
 
-            services.AddCors(cors =>
+            services.AddCors(builder =>
             {
-                var config = _configuration
-                    .GetSection(CorsConfiguration.SectionKey)
-                    .Get<CorsConfiguration>();
+                var options = _configuration
+                    .GetSection(CorsOptions.SectionKey)
+                    .Get<CorsOptions>();
 
-                cors.AddDefaultPolicy(builder =>
+                builder.AddDefaultPolicy(policy =>
                 {
-                    builder.WithOrigins(config.Origins);
+                    policy.WithOrigins(options.Origins);
                 });
             });
 
-            services.AddHealthChecks();
-
-            services.AddSwaggerGen(options =>
-            {
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Personal Website - Web Api", Version = "v1" });
-            });
-
-            services.AddFluentValidationRulesToSwagger();
+            services
+                .AddHealthChecks()
+                .AddNpgSql(_configuration.GetConnectionString("WebApi"), name: "database");
 
             services.AddAntiforgery(options =>
             {
@@ -71,6 +70,13 @@ namespace Ravenhorn.PersonalWebsite.WebApi
                 options.IncludeSubDomains = true;
                 options.MaxAge = TimeSpan.FromDays(365);
             });
+
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Personal Website - Web Api", Version = "v1" });
+            });
+
+            services.AddFluentValidationRulesToSwagger();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -105,6 +111,12 @@ namespace Ravenhorn.PersonalWebsite.WebApi
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHealthChecks("/health", new HealthCheckOptions
+                {
+                    AllowCachingResponses = false,
+                    ResponseWriter = HealthJsonWriter.WriteResponseAsync
+                });
+
                 endpoints.MapControllers();
             });
         }
