@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 namespace Ravenhorn.PersonalWebsite.WebApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [ApiVersion("1.0")]
+    [Route("v{version:apiVersion}/[controller]")]
     [Produces(MediaTypeNames.Application.Json)]
     public class ContactMeController : ControllerBase
     {
