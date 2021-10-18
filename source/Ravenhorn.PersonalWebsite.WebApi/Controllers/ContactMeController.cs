@@ -34,5 +34,12 @@ namespace Ravenhorn.PersonalWebsite.WebApi.Controllers
             await _mediator.SendAsync(command, cancellationToken);
             return NoContent();
         }
+
+        [HttpOptions]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public IActionResult Options()
+        {
+            return NoContent();
+        }
     }
 }

@@ -9,5 +9,13 @@ namespace Ravenhorn.PersonalWebsite.Application.Configuration
         [Required]
         [MinLength(1)]
         public string[] Origins { get; set; }
+
+        [Required]
+        [MinLength(1)]
+        public string[] Methods { get; set; }
+
+        [Required]
+        [MinLength(1)]
+        public string[] Headers { get; set; }
     }
 }

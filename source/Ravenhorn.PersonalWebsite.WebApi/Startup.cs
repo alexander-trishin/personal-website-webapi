@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -64,7 +63,10 @@ namespace Ravenhorn.PersonalWebsite.WebApi
 
                 builder.AddDefaultPolicy(policy =>
                 {
-                    policy.WithOrigins(options.Origins);
+                    policy
+                        .WithOrigins(options.Origins)
+                        .WithMethods(options.Methods)
+                        .WithHeaders(options.Headers);
                 });
             });
 
@@ -90,7 +92,7 @@ namespace Ravenhorn.PersonalWebsite.WebApi
                 .AddFluentValidationRulesToSwagger();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -105,6 +107,10 @@ namespace Ravenhorn.PersonalWebsite.WebApi
             app.UseSerilogRequestLogging();
             app.UseHttpsRedirection();
 
+            app.UseRouting();
+            app.UseCors();
+            app.UseAuthorization();
+
             app.Use(async (context, next) =>
             {
                 context.Response.Headers["X-Frame-Options"] = "DENY";
@@ -114,10 +120,6 @@ namespace Ravenhorn.PersonalWebsite.WebApi
 
                 await next();
             });
-
-            app.UseCors();
-            app.UseRouting();
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
