@@ -2,6 +2,7 @@
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Ravenhorn.PersonalWebsite.Application;
 using Ravenhorn.PersonalWebsite.Application.Configuration;
 using Ravenhorn.PersonalWebsite.Application.Core;
 using Ravenhorn.PersonalWebsite.Infrastructure;
@@ -22,16 +23,7 @@ namespace Ravenhorn.PersonalWebsite.DependencyInjection
             services.AddTransient<ISmtpClient, SmtpClient>();
             services.AddTransient<IEmailService, EmailService>();
 
-            services.AddIntermedium(options =>
-            {
-                options.ConfigurePipeline(
-                    exceptionHandling: false,
-                    postProcessing: false,
-                    preProcessing: false
-                );
-
-                options.Scan(typeof(IEmailService));
-            });
+            services.AddIntermedium(typeof(Guard));
 
             return services;
         }

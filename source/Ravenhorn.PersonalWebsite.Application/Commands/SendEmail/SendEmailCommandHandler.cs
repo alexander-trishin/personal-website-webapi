@@ -15,7 +15,7 @@ namespace Ravenhorn.PersonalWebsite.Application.Commands.SendEmail
             _emailService = Guard.ThrowIfNull(emailService, nameof(emailService));
         }
 
-        protected override async Task HandleAsync(SendEmailCommand command, CancellationToken cancellationToken)
+        public override async Task HandleAsync(SendEmailCommand command, CancellationToken cancellationToken)
         {
             var builder = new StringBuilder(command.Message.Length + 512);
 

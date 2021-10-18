@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using Intermedium;
 using Moq;
 using Ravenhorn.PersonalWebsite.Application.Commands.SendEmail;
 using Ravenhorn.PersonalWebsite.Application.Core;
@@ -44,7 +43,7 @@ namespace Ravenhorn.PersonalWebsite.Application.UnitTests.Commands.SendEmail
                 .Returns(Task.CompletedTask)
                 .Verifiable();
 
-            ICommandHandler<SendEmailCommand> handler = new SendEmailCommandHandler(emailServiceMock.Object);
+            var handler = new SendEmailCommandHandler(emailServiceMock.Object);
 
             await handler.HandleAsync(command, default);
 

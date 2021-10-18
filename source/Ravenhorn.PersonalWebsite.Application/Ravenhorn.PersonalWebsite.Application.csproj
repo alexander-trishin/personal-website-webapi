@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="10.3.3" />
-    <PackageReference Include="Intermedium" Version="1.0.1" />
+    <PackageReference Include="Intermedium" Version="2.0.0" />
   </ItemGroup>
 
 </Project>
