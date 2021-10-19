@@ -29,9 +29,9 @@ jobs:
     - name: Build
       run: |
         docker build --no-cache . \
-        -t "registry.heroku.com/$APP_NAME/web:latest" \
+        -t "registry.heroku.com/$APP_NAME/web:$GITHUB_SHA" \
         -f "source/Ravenhorn.PersonalWebsite.WebApi/Dockerfile"
     - name: Push
-      run: docker push registry.heroku.com/$APP_NAME/web:latest
+      run: docker push registry.heroku.com/$APP_NAME/web:$GITHUB_SHA
     - name: Publish
       run: heroku container:release web --app=$APP_NAME
